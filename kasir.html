@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dasbor Kasir — Kopi Calon Sarjana</title>
+  <link rel="stylesheet" href="CSS/style.css">
+  <link rel="stylesheet" href="CSS/admin.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+    <!-- ==================== SIDEBAR DESKTOP ==================== -->
+    <aside class="admin-sidebar" aria-label="Sidebar Navigasi Kasir">
+      <div class="sidebar-header">
+        <div class="sidebar-brand-icon">💼</div>
+        <div class="sidebar-brand-text">
+          <h2>Kopi Calon Sarjana</h2>
+          <span>Area Kasir</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button id="nav-pos" class="nav-item active">
+          <span class="nav-icon">🧾</span>
+          <span>Input Pesanan (POS)</span>
+        </button>
+
+        <button id="nav-tunai" class="nav-item">
+          <span class="nav-icon">💵</span>
+          <span>Pembayaran Tunai</span>
+          <span id="badge-count-tunai" class="badge" style="background:#e8f8f0; color:#27ae60; margin-left:auto; font-size:0.75rem;">0</span>
+        </button>
+
+        <button id="nav-rekap" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span>Rekap Penjualan</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-badge-sidebar">
+          <div class="user-avatar-circle" style="background:#dbeafe; color:#1e40af;">K</div>
+          <div>
+            <div id="kasirUserName" class="user-meta-name">kasir01</div>
+            <div id="kasirUserRole" class="user-meta-role">Kasir</div>
+          </div>
+        </div>
+        <button onclick="logout()" class="btn-sidebar-logout" title="Keluar dari akun kasir">
+          <span>🚪</span>
+          <span>Keluar</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ==================== MAIN CONTENT AREA ==================== -->
+    <main class="admin-main">
+      <!-- Header Bar -->
+      <div class="page-header-bar">
+        <div class="page-title-group">
+          <h1>Portal Layanan Kasir</h1>
+          <p>Kelola pemesanan meja langsung, konfirmasi transaksi tunai, dan tinjau omset penjualan</p>
+        </div>
+        <div class="header-status-indicator">
+          <span class="pulse-dot"></span>
+          <span>Kasir Aktif (Real-Time)</span>
+        </div>
+      </div>
+
+      <!-- ==================== FITUR A: SECTION INPUT PESANAN (POS) ==================== -->
+      <section id="section-pos" class="admin-section active">
+        <div class="pos-layout">
+          <!-- Kolom Kiri: Katalog Menu -->
+          <div class="section-box" style="margin-bottom:0;">
+            <div class="section-box-header">
+              <h3><span>☕</span> <span>Pilih Menu Produk</span></h3>
+              <div style="font-size:0.825rem; color:var(--color-text-secondary);">
+                Klik kartu menu untuk kustomisasi & memasukkan ke keranjang
+              </div>
+            </div>
+            <div style="padding: 1.25rem;">
+              <div id="pos-menu-container" class="pos-menu-grid">
+                <!-- Di-render oleh js/kasir.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Kolom Kanan: Panel Keranjang Kasir & Checkout Form -->
+          <div class="pos-cart-panel">
+            <div class="pos-cart-header">
+              <h3 style="font-size:1.05rem; font-weight:700; color:var(--color-primary); display:flex; align-items:center; gap:0.4rem;">
+                <span>🛒</span> <span>Keranjang Kasir</span>
+              </h3>
+              <button 
+                onclick="kosongkanKeranjangKasir()" 
+                style="background:none; border:none; color:var(--color-error); font-size:0.8rem; cursor:pointer;"
+                title="Kosongkan Keranjang"
+              >
+                Reset
+              </button>
+            </div>
+
+            <!-- Daftar Item Keranjang -->
+            <div id="pos-keranjang" class="pos-cart-items-list">
+              <!-- Di-render oleh js/kasir.js -->
+            </div>
+
+            <!-- Ringkasan Total Harga -->
+            <div class="pos-cart-summary">
+              <div class="pos-summary-row">
+                <span>Jumlah Item:</span>
+                <span id="pos-item-count" style="font-weight:700;">0</span>
+              </div>
+              <div class="pos-summary-row pos-summary-total">
+                <span>Total Akhir:</span>
+                <span id="pos-total-harga">Rp0</span>
+              </div>
+            </div>
+
+            <!-- Form Checkout Kasir -->
+            <form id="formCheckoutKasir" onsubmit="handleSimpanPesananKasir(event)">
+              <div style="margin-bottom: 0.85rem;">
+                <label for="pos-input-nama" style="display:block; font-size:0.825rem; font-weight:700; margin-bottom:0.25rem;">
+                  Nama Pelanggan <span style="color:var(--color-error);">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="pos-input-nama" 
+                  class="input-field" 
+                  placeholder="Contoh: Budi Santoso (3-30 karakter)" 
+                  minlength="3" 
+                  maxlength="30" 
+                  style="width:100%; padding:0.6rem 0.75rem; border:1.5px solid var(--color-border); border-radius:8px; font-size:0.875rem;"
+                  required
+                >
+              </div>
+
+              <div style="margin-bottom: 0.85rem;">
+                <label for="pos-input-meja" style="display:block; font-size:0.825rem; font-weight:700; margin-bottom:0.25rem;">
+                  Nomor Meja (Opsional)
+                </label>
+                <input 
+                  type="text" 
+                  id="pos-input-meja" 
+                  placeholder="Contoh: 05 atau Takeaway" 
+                  style="width:100%; padding:0.6rem 0.75rem; border:1.5px solid var(--color-border); border-radius:8px; font-size:0.875rem;"
+                >
+              </div>
+
+              <div style="margin-bottom: 1.15rem;">
+                <label style="display:block; font-size:0.825rem; font-weight:700; margin-bottom:0.25rem;">
+                  Metode Pembayaran
+                </label>
+                <div style="display:flex; align-items:center; gap:0.5rem; background:#faf6f1; border:1px solid var(--color-border); padding:0.55rem 0.75rem; border-radius:8px; font-size:0.85rem; font-weight:700; color:var(--color-primary);">
+                  <span>💵</span>
+                  <span>Tunai di Kasir (Otomatis Lunas)</span>
+                </div>
+              </div>
+
+              <!-- Tombol Simpan Pesanan (TC-26) -->
+              <button type="submit" id="pos-btn-simpan" class="btn-submit" style="width:100%; padding:0.75rem;">
+                <span>💾 Simpan Pesanan</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== FITUR B: SECTION PEMBAYARAN TUNAI (TC-15) ==================== -->
+      <section id="section-tunai" class="admin-section">
+        <div class="section-box">
+          <div class="section-box-header">
+            <h3><span>💵</span> <span>Antrean Pembayaran Tunai Pelanggan</span></h3>
+            <div style="font-size:0.825rem; color:var(--color-text-secondary);">
+              Pesanan pelanggan dengan metode Tunai yang menunggu pelunasan di kasir
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Nomor Pesanan</th>
+                  <th>Meja</th>
+                  <th>Nama Pelanggan</th>
+                  <th>Total Pembayaran</th>
+                  <th>Aksi Penerimaan</th>
+                </tr>
+              </thead>
+              <tbody id="tabel-pembayaran-tunai">
+                <!-- Di-render oleh js/kasir.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== FITUR C: SECTION REKAP PENJUALAN (TC-16, TC-27) ==================== -->
+      <!-- ==================== FITUR C: SECTION REKAP PENJUALAN (HANYA HARIAN UNTUK KASIR) ==================== -->
+      <section id="section-rekap" class="admin-section">
+        <!-- Rekap Header Kasir -->
+        <div class="rekap-tabs-header">
+          <div class="rekap-tab-btn active" style="cursor: default;">
+            📅 Rekap Penjualan Hari Ini
+          </div>
+        </div>
+
+        <!-- Konten Rekap Harian -->
+        <div id="tab-content-harian" class="rekap-tab-content active">
+          <div class="dashboard-grid">
+            <!-- Kartu Tunai Harian -->
+            <div class="stat-card card-green">
+              <div class="stat-icon-wrapper">💵</div>
+              <div class="stat-info">
+                <div class="stat-title">Pendapatan Tunai Hari Ini</div>
+                <div id="rekap-tunai-harian" class="stat-value">Rp0</div>
+                <div class="stat-subtext">Total transaksi tunai lunas</div>
+              </div>
+            </div>
+
+            <!-- Kartu Non-Tunai Harian -->
+            <div class="stat-card card-blue">
+              <div class="stat-icon-wrapper">📱</div>
+              <div class="stat-info">
+                <div class="stat-title">Pendapatan Non-Tunai Hari Ini</div>
+                <div id="rekap-nontunai-harian" class="stat-value">Rp0</div>
+                <div class="stat-subtext">QRIS / Transfer bank lunas</div>
+              </div>
+            </div>
+
+            <!-- Kartu Total Keseluruhan Harian -->
+            <div class="stat-card card-amber">
+              <div class="stat-icon-wrapper">🏆</div>
+              <div class="stat-info">
+                <div class="stat-title">Total Keseluruhan Hari Ini</div>
+                <div id="rekap-total-harian" class="stat-value">Rp0</div>
+                <div class="stat-subtext">Akumulasi seluruh metode pembayaran</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ==================== BOTTOM NAV MOBILE KASIR ==================== -->
+  <nav class="admin-bottom-nav" aria-label="Bottom Navigasi Kasir Mobile">
+    <button id="m-nav-pos" class="bottom-nav-item active">
+      <span class="nav-icon">🧾</span>
+      <span>POS</span>
+    </button>
+    <button id="m-nav-tunai" class="bottom-nav-item">
+      <span class="nav-icon">💵</span>
+      <span>Tunai</span>
+    </button>
+    <button id="m-nav-rekap" class="bottom-nav-item">
+      <span class="nav-icon">📊</span>
+      <span>Rekap</span>
+    </button>
+    <button onclick="logout()" class="bottom-nav-item" style="color: var(--color-error);">
+      <span class="nav-icon">🚪</span>
+      <span>Keluar</span>
+    </button>
+  </nav>
+
+  <!-- ==================== MODAL KUSTOMISASI POS (TC-26) ==================== -->
+  <div id="modalKustomPOS" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="posModalItemTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 id="posModalItemTitle">Kustomisasi Menu</h3>
+          <span id="posModalItemPrice" style="font-size:0.875rem; color:var(--color-primary); font-weight:700;">Rp0</span>
+        </div>
+        <button class="modal-close-btn" onclick="tutupModalKustomPOS()" aria-label="Tutup">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Opsi Ukuran -->
+        <div style="margin-bottom: 1.15rem;">
+          <label style="display:block; font-size:0.825rem; font-weight:700; margin-bottom:0.4rem;">Ukuran</label>
+          <div style="display:flex; gap:0.75rem;">
+            <label style="flex:1; border:1px solid var(--color-border); border-radius:8px; padding:0.5rem; display:flex; align-items:center; gap:0.4rem; cursor:pointer;">
+              <input type="radio" name="pos-ukuran" value="Regular" checked onchange="updateHargaModalPOS()">
+              <span>Regular</span>
+            </label>
+            <label style="flex:1; border:1px solid var(--color-border); border-radius:8px; padding:0.5rem; display:flex; align-items:center; gap:0.4rem; cursor:pointer;">
+              <input type="radio" name="pos-ukuran" value="Large" onchange="updateHargaModalPOS()">
+              <span>Large (+Rp5.000)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Opsi Sugar & Ice -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom: 1.15rem;">
+          <div>
+            <label style="display:block; font-size:0.825rem; font-weight:700; margin-bottom:0.35rem;">Sugar Level</label>
+            <select name="pos-sugar" style="width:100%; padding:0.45rem; border:1px solid var(--color-border); border-radius:6px; font-size:0.85rem;">
+              <option value="Normal">Normal</option>
+              <option value="Sedikit">Less (Sedikit)</option>
+              <option value="Tanpa">No Sugar</option>
+            </select>
+          </div>
+          <div>
+            <label style="display:block; font-size:0.825rem; font-weight:700; margin-bottom:0.35rem;">Ice Level</label>
+            <select name="pos-ice" style="width:100%; padding:0.45rem; border:1px solid var(--color-border); border-radius:6px; font-size:0.85rem;">
+              <option value="Normal">Normal</option>
+              <option value="Sedikit">Less Ice</option>
+              <option value="Tanpa">No Ice</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Opsi Topping Boba (+Rp3.000) -->
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display:block; font-size:0.825rem; font-weight:700; margin-bottom:0.4rem;">Topping Tambahan</label>
+          <label style="border:1px solid var(--color-border); border-radius:8px; padding:0.6rem; display:flex; align-items:center; justify-content:space-between; cursor:pointer;">
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+              <input type="checkbox" id="pos-topping-boba" onchange="updateHargaModalPOS()">
+              <span>Boba Brown Sugar</span>
+            </div>
+            <strong style="color:var(--color-primary); font-size:0.85rem;">+Rp3.000</strong>
+          </label>
+        </div>
+
+        <!-- Jumlah & Subtotal -->
+        <div style="display:flex; justify-content:space-between; align-items:center; background:#faf6f1; border-radius:8px; padding:0.75rem 1rem;">
+          <div>
+            <div style="font-size:0.775rem; color:var(--color-text-secondary);">Subtotal</div>
+            <div id="posModalSubtotal" style="font-size:1.15rem; font-weight:800; color:var(--color-primary);">Rp0</div>
+          </div>
+          <div class="pos-qty-stepper">
+            <button type="button" class="pos-btn-step" onclick="ubahQtyModalPOS(-1)">-</button>
+            <input type="number" id="pos-kustom-qty" value="1" min="1" max="20" readonly style="width:36px; text-align:center; font-weight:700; border:none; background:transparent;">
+            <button type="button" class="pos-btn-step" onclick="ubahQtyModalPOS(1)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-action-small" onclick="tutupModalKustomPOS()" style="background:#e8ddd2;">Batal</button>
+        <button type="button" class="header-action-btn" onclick="tambahItemKeKeranjangKasir()">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifikasi Kasir -->
+  <div id="toast-kasir" id="toast-success-status" role="status" style="position:fixed; bottom:2rem; right:2rem; background:var(--color-success); color:#fff; padding:0.85rem 1.35rem; border-radius:10px; box-shadow:0 8px 24px rgba(39,174,96,0.35); font-weight:600; font-size:0.925rem; z-index:2000; display:flex; align-items:center; gap:0.6rem; transform:translateY(100px); opacity:0; pointer-events:none; transition:all 0.3s cubic-bezier(0.175,0.885,0.32,1.275);">
+    <span id="toast-kasir-text">Operasi Berhasil</span>
+  </div>
+
+  <!-- Dependensi Skrip -->
+  <script src="js/storage.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/hitung.js"></script>
+  <script src="js/pesanan.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/rekap.js"></script>
+  <script src="js/kasir.js"></script>
+</body>
+</html>

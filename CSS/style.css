@@ -1,0 +1,841 @@
+/**
+ * style.css — Stylesheet utama Kopi Calon Sarjana
+ * Mobile-first, responsif, tema kedai kopi hangat
+ */
+
+/* ==================== RESET & BASE ==================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Palet warna tema kopi Kopi Calon Sarjana */
+  --color-bg: #F5EBDD;             /* Background utama krem */
+  --color-surface: #ffffff;
+  --color-primary: #6F4E37;        /* Warna brand coklat */
+  --color-primary-light: #856147;
+  --color-primary-dark: #553926;   /* Sedikit lebih gelap untuk hover */
+  --color-accent: #C69C6D;         /* Aksen */
+  --color-accent-light: #e0be97;
+  --color-text: #3E2A1D;           /* Teks gelap */
+  --color-text-secondary: #745743;
+  --color-error: #c0392b;
+  --color-error-bg: #fdecea;
+  --color-success: #27ae60;
+  --color-success-bg: #e8f8f0;
+  --color-border: #e6d5c3;
+  --color-disabled: #c4b8ab;
+  --color-badge-habis: #e74c3c;
+
+  /* Radius dan shadow */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 50px;
+  --shadow-sm: 0 2px 6px rgba(62, 42, 29, 0.05);
+  --shadow-md: 0 4px 16px rgba(62, 42, 29, 0.08);
+  --shadow-lg: 0 10px 28px rgba(62, 42, 29, 0.12);
+
+  /* Tipografi */
+  --font-main: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+
+  /* Transisi */
+  --transition: all 0.2s ease;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==================== LAYOUT ==================== */
+.page-container {
+  min-height: 100vh;
+  padding: 16px;
+}
+
+.center-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==================== ERROR PAGE (Meja tidak ditemukan) ==================== */
+.error-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 40px 24px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: var(--shadow-md);
+}
+
+.error-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.error-card h1 {
+  color: var(--color-error);
+  font-size: var(--font-size-xl);
+  margin-bottom: 12px;
+}
+
+.error-card p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  margin-bottom: 8px;
+}
+
+.error-card .hint {
+  color: var(--color-disabled);
+  font-size: var(--font-size-xs);
+  font-style: italic;
+}
+
+/* ==================== REGISTRASI ==================== */
+.register-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: var(--shadow-md);
+}
+
+.brand-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.brand-icon {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+}
+
+.brand-header h1 {
+  color: var(--color-primary);
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+}
+
+.brand-tagline {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  margin-top: 4px;
+}
+
+/* ==================== FORM ==================== */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+  font-family: var(--font-main);
+  color: var(--color-text);
+  background: var(--color-bg);
+  transition: var(--transition);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(92, 61, 46, 0.1);
+}
+
+.input-readonly {
+  background: var(--color-accent-light);
+  color: var(--color-primary);
+  font-weight: 600;
+  cursor: not-allowed;
+}
+
+.input-error {
+  border-color: var(--color-error) !important;
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1) !important;
+}
+
+.error-message {
+  color: var(--color-error);
+  font-size: var(--font-size-xs);
+  margin-top: 4px;
+  min-height: 18px;
+}
+
+/* ==================== TOMBOL ==================== */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font-main);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-light);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  background: var(--color-disabled);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-reset {
+  background: none;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--color-text-secondary);
+}
+
+.btn-reset:hover {
+  background: var(--color-error-bg);
+  border-color: var(--color-error);
+}
+
+/* ==================== HEADER ==================== */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+}
+
+.header-brand {
+  font-size: var(--font-size-lg);
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.header-meta {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  display: block;
+  margin-top: 2px;
+}
+
+/* ==================== TAB KATEGORI ==================== */
+.tab-container {
+  display: flex;
+  gap: 0;
+  padding: 0 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 12px 8px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font-main);
+}
+
+.tab-btn:hover {
+  color: var(--color-primary);
+}
+
+.tab-btn.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+/* ==================== DAFTAR MENU ==================== */
+.main-content {
+  padding: 16px;
+  padding-bottom: 80px; /* Ruang untuk FAB */
+}
+
+.menu-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.menu-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.menu-card.tidak-tersedia {
+  opacity: 0.55;
+}
+
+.menu-info {
+  flex: 1;
+  margin-right: 12px;
+}
+
+.menu-nama {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.menu-deskripsi {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+}
+
+.menu-harga {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.badge-habis {
+  display: inline-block;
+  background: var(--color-badge-habis);
+  color: #fff;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  margin-top: 4px;
+}
+
+/* ==================== TOMBOL TAMBAH ==================== */
+.btn-tambah {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn-tambah:hover {
+  background: var(--color-primary-light);
+  transform: scale(1.1);
+}
+
+.btn-tambah.btn-disabled {
+  background: var(--color-disabled);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ==================== FAB KERANJANG ==================== */
+.fab-cart {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  font-size: var(--font-size-xl);
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: var(--transition);
+  z-index: 90;
+}
+
+.fab-cart:hover {
+  background: var(--color-primary-light);
+  transform: scale(1.05);
+}
+
+.fab-cart.hidden {
+  display: none;
+}
+
+#badgeKeranjang {
+  background: var(--color-error);
+  color: #fff;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+}
+
+/* ==================== MODAL ==================== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 200;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  background: var(--color-surface);
+  z-index: 10;
+}
+
+.modal-header h2 {
+  font-size: var(--font-size-lg);
+  color: var(--color-primary);
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  font-size: var(--font-size-xl);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-harga {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 20px;
+}
+
+.modal-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--color-border);
+  position: sticky;
+  bottom: 0;
+  background: var(--color-surface);
+}
+
+/* ==================== OPTION GROUP ==================== */
+.option-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.option-btn {
+  flex: 1;
+  min-width: 60px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font-main);
+  text-align: center;
+}
+
+.option-btn:hover {
+  border-color: var(--color-accent);
+}
+
+.option-btn.active {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+/* ==================== QUANTITY CONTROL ==================== */
+.qty-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 160px;
+}
+
+.btn-qty {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-bg);
+  font-size: var(--font-size-xl);
+  color: var(--color-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  font-family: var(--font-main);
+}
+
+.btn-qty:hover {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.qty-control input {
+  width: 50px;
+  text-align: center;
+  font-weight: 700;
+  font-size: var(--font-size-lg);
+  border: none;
+  background: transparent;
+}
+
+/* ==================== KUSTOMISASI TOTAL ==================== */
+.kustomisasi-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* ==================== KERANJANG ==================== */
+.modal-keranjang {
+  max-height: 90vh;
+}
+
+.cart-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item-info {
+  flex: 1;
+}
+
+.cart-item-info h4 {
+  font-size: var(--font-size-md);
+  margin-bottom: 2px;
+}
+
+.cart-detail {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.cart-catatan {
+  font-size: var(--font-size-xs);
+  color: var(--color-accent);
+  font-style: italic;
+  margin-top: 2px;
+}
+
+.cart-harga {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-top: 4px;
+}
+
+.btn-hapus {
+  background: none;
+  border: none;
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+  padding: 4px;
+  margin-left: 8px;
+  transition: var(--transition);
+}
+
+.btn-hapus:hover {
+  transform: scale(1.2);
+}
+
+.cart-footer {
+  padding: 16px 20px;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 12px;
+}
+
+/* ==================== TOAST NOTIFICATION ==================== */
+.toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-primary-dark);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  box-shadow: var(--shadow-lg);
+  z-index: 300;
+  animation: fadeIn 0.3s ease;
+  white-space: nowrap;
+}
+
+.toast-hide {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* ==================== EMPTY STATE ==================== */
+.empty-message {
+  text-align: center;
+  color: var(--color-text-secondary);
+  padding: 40px 16px;
+  font-size: var(--font-size-sm);
+}
+
+/* ==================== CHECKBOX STYLING ==================== */
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary);
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+/* ==================== ANIMASI ==================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* ==================== RESPONSIF - TABLET & DESKTOP ==================== */
+@media (min-width: 600px) {
+  .main-content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .app-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header-top {
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .tab-container {
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .modal-content {
+    border-radius: var(--radius-lg);
+    margin-bottom: 40px;
+  }
+
+  .modal {
+    align-items: center;
+  }
+}
+
+/* ==================== TAHAP PENYEMPURNAAN VISUAL (POLISHING) ==================== */
+/* 1. Kartu (Cards): box-shadow lembut dan sudut membulat border-radius 12px */
+.card,
+.stat-card,
+.section-box,
+.pos-cart-panel,
+.pos-menu-card,
+.menu-card,
+.order-card,
+.ringkasan-card,
+.metode-card,
+.meja-error-card,
+.registrasi-card,
+.login-container,
+.kasir-box,
+.modal-card {
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* 2. Sentuhan Interaktif Form: Input teks & file min-height 44px agar mudah ditekan */
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="file"],
+input[type="search"],
+select,
+.input-field,
+.btn-submit,
+.btn-primary,
+.header-action-btn,
+.btn-action {
+  min-height: 44px;
+}
+
+/* 3. Sentuhan Interaktif Tombol: Efek hover warna sedikit lebih gelap */
+.btn-primary:hover,
+.btn-submit:hover,
+.header-action-btn:hover {
+  background-color: var(--color-primary-dark) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(62, 42, 29, 0.18) !important;
+}
+
+/* 4. Tabel Antrean Responsif: Horizontal scroll agar aman di layar kecil */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 5. Animasi Halus Fade-In dari Bawah (Fade In Up) */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up,
+.hero-content,
+.section-registrasi,
+.menu-grid,
+.pos-layout {
+  animation: fadeInUp 0.45s ease-out both;
+}
+
+/* 6. Responsivitas Mobile-First: Jarak bawah agar tidak tertutup bottom bar */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 20px;
+  }
+
+  main,
+  .admin-main,
+  .checkout-container,
+  .status-container,
+  .section-registrasi,
+  .pos-layout {
+    padding-bottom: 95px !important;
+  }
+}
+

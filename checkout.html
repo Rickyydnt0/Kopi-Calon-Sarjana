@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Pesanan — Kopi Calon Sarjana</title>
+    <meta name="description" content="Periksa ringkasan pesanan kopi & camilan Anda, pilih metode pembayaran, dan selesaikan pesanan Anda.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="CSS/beranda.css">
+    <link rel="stylesheet" href="CSS/menu.css">
+    <link rel="stylesheet" href="CSS/checkout.css">
+</head>
+<body>
+
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="beranda.html" class="nav-logo" id="navLogo">
+                <span class="logo-icon">☕</span>
+                <span class="logo-text">Kopi<strong>Calon Sarjana</strong></span>
+            </a>
+
+            <!-- Hamburger menu untuk mobile -->
+            <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Link navigasi pelanggan -->
+            <ul class="nav-links" id="navLinks">
+                <li><a href="beranda.html" id="linkBeranda">Beranda</a></li>
+                <li><a href="menu.html" id="linkMenu">Menu</a></li>
+                <li><a href="checkout.html" class="active" id="linkKeranjang">Keranjang</a></li>
+                <li><a href="status.html" id="linkStatus">Status Pesanan</a></li>
+                <li><a href="login.html" class="nav-staff-link" id="linkLoginStaff" title="Area Admin & Kasir">🔐 Login Staf</a></li>
+            </ul>
+
+            <!-- Area Status Login Pelanggan & Reset -->
+            <div class="nav-actions">
+                <div id="navUserInfo" class="nav-user-info">
+                    <span id="navUserBadge" class="nav-user-badge">Meja --</span>
+                </div>
+
+                <!-- Tombol Reset Data Uji -->
+                <button class="btn-reset-data" id="btnResetData" onclick="konfirmasiReset()" title="Reset Data Uji">
+                    🔄 Reset
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== BANNER STATUS MEJA DINE-IN ==================== -->
+    <section class="dine-in-bar" id="dineInBar">
+        <div class="dine-in-container">
+            <div class="dine-in-info">
+                <span class="dine-in-icon">📍</span>
+                <div>
+                    <strong>Dine-in di Meja: <span id="displayNomorMeja" class="badge-meja-highlight">--</span></strong>
+                    <span class="dine-in-nama" id="displayNamaPelanggan">Pelanggan: ...</span>
+                </div>
+            </div>
+            <div class="dine-in-action">
+                <button type="button" class="btn-outline-sm" id="btnUbahMeja" onclick="bukaGantiMeja()">Ubah Meja</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== KONTEN UTAMA CHECKOUT ==================== -->
+    <main class="checkout-main-container">
+        <header class="page-header-text">
+            <span class="section-badge">Konfirmasi Pesanan</span>
+            <h1>Checkout & Pembayaran</h1>
+            <p>Periksa kembali pesanan Anda dan pilih metode pembayaran untuk melanjutkan.</p>
+        </header>
+
+        <!-- KARTU 1: RINGKASAN PESANAN -->
+        <section class="checkout-card" id="cardRingkasanPesanan">
+            <h2 class="card-title">
+                <span>🛒</span>
+                <span>Daftar Pesanan Meja <span id="checkoutNomorMejaText">--</span></span>
+            </h2>
+
+            <!-- Daftar Item Keranjang Dinamis -->
+            <div class="order-items-list" id="checkoutItemsList">
+                <!-- Di-render oleh js/checkout.js -->
+            </div>
+
+            <!-- Rincian Total -->
+            <div class="order-summary-totals">
+                <div class="summary-row">
+                    <span>Subtotal Menu</span>
+                    <strong id="checkoutSubtotalText">Rp0</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Pajak & Layanan Resto (0%)</span>
+                    <span>Rp0</span>
+                </div>
+                <div class="summary-row grand-total">
+                    <span>Total Pembayaran:</span>
+                    <strong class="total-amount" id="checkoutTotalText">Rp0</strong>
+                </div>
+            </div>
+
+            <div style="margin-top: 1rem; text-align: right;">
+                <a href="menu.html" class="btn-outline-sm" style="text-decoration: none; display: inline-block;">
+                    + Tambah Menu Lain
+                </a>
+            </div>
+        </section>
+
+        <!-- KARTU 2: PILIHAN METODE PEMBAYARAN -->
+        <section class="checkout-card" id="cardMetodePembayaran">
+            <h2 class="card-title">
+                <span>💳</span>
+                <span>Pilih Metode Pembayaran</span>
+            </h2>
+
+            <div class="payment-options-grid">
+                <!-- Pilihan 1: Tunai -->
+                <label class="payment-card-label selected" id="labelTunai" for="radio-tunai">
+                    <div class="payment-card-header">
+                        <span class="payment-icon">💵</span>
+                        <input type="radio" id="radio-tunai" name="metodePembayaran" value="Tunai" checked onchange="ubahMetodePembayaran('Tunai')" />
+                    </div>
+                    <span class="payment-card-name">Tunai</span>
+                    <span class="payment-card-desc">Bayar langsung di kasir saat pesanan diproses atau diambil.</span>
+                </label>
+
+                <!-- Pilihan 2: Non-Tunai -->
+                <label class="payment-card-label" id="labelNonTunai" for="radio-nontunai">
+                    <div class="payment-card-header">
+                        <span class="payment-icon">📱</span>
+                        <input type="radio" id="radio-nontunai" name="metodePembayaran" value="Non-Tunai" onchange="ubahMetodePembayaran('Non-Tunai')" />
+                    </div>
+                    <span class="payment-card-name">Non-Tunai</span>
+                    <span class="payment-card-desc">Transfer Bank (BCA / Mandiri) atau QRIS E-Wallet (GoPay/OVO/Dana).</span>
+                </label>
+            </div>
+
+            <!-- AREA UPLOAD BUKTI (Kondisional: Hanya tampil bila Non-Tunai dipilih) -->
+            <div class="upload-section hidden" id="area-upload">
+                <div class="upload-instructions">
+                    <span>ℹ️</span>
+                    <div>
+                        <strong>Instruksi Pembayaran Non-Tunai:</strong>
+                        <p>Silakan transfer sesuai nominal total ke rekening kafe di bawah, lalu lampirkan foto/tangkapan layar bukti transfer.</p>
+                    </div>
+                </div>
+
+                <div class="rekening-box">
+                    <div class="rekening-row">
+                        <span>Bank BCA</span>
+                        <span class="rekening-number">821-098-7654</span>
+                    </div>
+                    <div class="rekening-row">
+                        <span>Atas Nama</span>
+                        <strong>Kopi Calon Sarjana</strong>
+                    </div>
+                    <div class="rekening-row" style="margin-top: 0.35rem; color: var(--color-text-muted);">
+                        <span>Nominal Transfer</span>
+                        <strong style="color: var(--color-accent);" id="rekeningNominalText">Rp0</strong>
+                    </div>
+                </div>
+
+                <div class="file-input-wrapper">
+                    <label for="input-bukti" style="font-size: 0.9rem; font-weight: 600; color: var(--color-primary);">
+                        Unggah Bukti Pembayaran (JPG/PNG, Maks. 5 MB) *
+                    </label>
+                    <input type="file" id="input-bukti" accept=".jpg, .jpeg, .png" onchange="onFileBuktiDipilih(this)" />
+                    <span class="file-detail-info" id="fileInfoDetail">Format didukung: .jpg, .jpeg, .png (Maksimal 5 MB)</span>
+                    
+                    <!-- Pesan Error Bukti (Wajib untuk Black Box Testing TC-11 & TC-21) -->
+                    <div id="pesan-error-bukti" class="error-message" role="alert"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KARTU 3: TOMBOL SUBMIT PESANAN -->
+        <section style="margin-top: 1.5rem;">
+            <button type="button" class="btn-submit-order" id="btn-buat-pesanan" onclick="prosesBuatPesanan()">
+                <span>☕</span>
+                <span>Buat Pesanan Sekarang</span>
+            </button>
+            <p style="text-align: center; font-size: 0.8rem; color: var(--color-text-muted); margin-top: 0.75rem;">
+                Pesanan Anda akan langsung diteruskan ke sistem kasir dan barista Kopi Calon Sarjana.
+            </p>
+        </section>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="logo-icon">☕</span>
+                <span>Kopi Calon Sarjana</span>
+            </div>
+            <p class="footer-text">© 2026 Kopi Calon Sarjana — Prototipe Tugas Testing & Implementasi</p>
+            <p class="footer-text">Sistem Informasi • Universitas Mikroskil</p>
+        </div>
+    </footer>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script src="js/hitung.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/nav-guard.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+</html>

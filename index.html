@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kopi Calon Sarjana — Pesan Online</title>
+  <meta name="description" content="Pesan kopi dan makanan dari meja Anda di Kopi Calon Sarjana" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <!--
+    Halaman utama pelanggan — Kopi Calon Sarjana
+    Cara akses: index.html?meja=05  (kode meja 01-20)
+    Konten dirender oleh JavaScript secara dinamis.
+  -->
+  <div id="app">
+    <!-- Konten dimuat oleh js/app.js -->
+    <div class="page-container center-content">
+      <p>Memuat...</p>
+    </div>
+  </div>
+
+  <!-- Script: data seed harus dimuat sebelum app -->
+  <script>
+    // Arahkan otomatis ke beranda.html utama dengan meneruskan parameter meja jika ada
+    const params = window.location.search;
+    window.location.replace("beranda.html" + params);
+  </script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>

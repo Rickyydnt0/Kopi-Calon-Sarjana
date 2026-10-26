@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Menu — Kopi Calon Sarjana</title>
+    <meta name="description"
+        content="Pilih aneka kopi khas Indonesia, minuman non-kopi segar, dan cemilan lezat untuk teman belajar Anda.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
+        rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="CSS/beranda.css">
+    <link rel="stylesheet" href="CSS/menu.css">
+</head>
+
+<body>
+
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="beranda.html" class="nav-logo" id="navLogo">
+                <span class="logo-icon">☕</span>
+                <span class="logo-text">Kopi<strong>Calon Sarjana</strong></span>
+            </a>
+
+            <!-- Hamburger menu untuk mobile -->
+            <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Link navigasi pelanggan -->
+            <ul class="nav-links" id="navLinks">
+                <li><a href="beranda.html" id="linkBeranda">Beranda</a></li>
+                <li><a href="menu.html" class="active" id="linkMenu">Menu</a></li>
+                <li><a href="checkout.html" id="linkKeranjang">Keranjang</a></li>
+                <li><a href="status.html" id="linkStatus">Status Pesanan</a></li>
+                <li><a href="login.html" class="nav-staff-link" id="linkLoginStaff" title="Area Admin & Kasir">🔐 Login
+                        Staf</a></li>
+            </ul>
+
+            <!-- Area Status Login Pelanggan & Reset -->
+            <div class="nav-actions">
+                <div id="navUserInfo" class="nav-user-info">
+                    <span id="navUserBadge" class="nav-user-badge">Meja -- • Tamu</span>
+                    <button type="button" class="btn-ganti-meja" onclick="bukaGantiMeja()"
+                        title="Ganti Meja / Nama">Ganti</button>
+                </div>
+
+                <!-- Tombol Reset Data Uji -->
+                <button class="btn-reset-data" id="btnResetData" onclick="konfirmasiReset()" title="Reset Data Uji">
+                    🔄 Reset
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== BANNER STATUS MEJA DINE-IN ==================== -->
+    <section class="dine-in-bar" id="dineInBar">
+        <div class="dine-in-container">
+            <div class="dine-in-info">
+                <span class="dine-in-icon">📍</span>
+                <div>
+                    <strong>Dine-in di Meja: <span id="displayNomorMeja" class="badge-meja-highlight">--</span></strong>
+                    <span class="dine-in-nama" id="displayNamaPelanggan">Pelanggan: Belum Terdaftar</span>
+                </div>
+            </div>
+            <div class="dine-in-action">
+                <button type="button" class="btn-outline-sm" id="btnUbahMeja" onclick="bukaGantiMeja()">Ubah
+                    Meja</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== KONTEN UTAMA: KATALOG MENU ==================== -->
+    <main class="menu-main-container">
+        <!-- Header Menu Modern Banner & Filter Kategori -->
+        <header class="menu-hero-banner">
+            <div class="menu-hero-content">
+                <span class="menu-hero-badge">☕ Diseduh Spesial Untuk Calon Sarjana</span>
+                <h1 class="menu-hero-title">Katalog Rasa & Inspirasi</h1>
+                <p class="menu-hero-desc">
+                    Temani setiap bab tugas dan diskusimu dengan racikan kopi pilihan Nusantara, aneka mocktail segar, dan camilan hangat yang diantar langsung ke meja Anda.
+                </p>
+                <div class="menu-hero-pills">
+                    <span class="menu-pill-item">✨ 100% Biji Kopi Lokal Pilihan</span>
+                    <span class="menu-pill-item">🧊 Kustomisasi Suhu, Gula & Boba</span>
+                    <span class="menu-pill-item">🚀 Diantar Cepat Tanpa Antre</span>
+                </div>
+            </div>
+
+            <!-- Filter Kategori Tab -->
+            <div class="category-tabs-container" id="categoryTabs">
+                <button type="button" class="cat-tab active" data-category="Semua"
+                    onclick="filterKategori('Semua', this)">
+                    ✨ Semua Menu
+                </button>
+                <button type="button" class="cat-tab" data-category="Kopi" onclick="filterKategori('Kopi', this)">
+                    ☕ Kopi
+                </button>
+                <button type="button" class="cat-tab" data-category="Non-Kopi"
+                    onclick="filterKategori('Non-Kopi', this)">
+                    🍵 Non-Kopi
+                </button>
+                <button type="button" class="cat-tab" data-category="Makanan" onclick="filterKategori('Makanan', this)">
+                    🍞 Cemilan & Toast
+                </button>
+            </div>
+        </header>
+
+        <!-- Grid Daftar Produk -->
+        <section class="products-grid-section">
+            <div class="products-grid" id="menuGrid">
+                <!-- Di-render secara dinamis oleh js/menu.js -->
+                <div class="loading-state">
+                    <p>☕ Menyiapkan menu terbaik untuk Anda...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== FLOATING CART BAR (BAGIAN BAWAH) ==================== -->
+    <aside class="floating-cart-bar hidden" id="floatingCartBar">
+        <div class="floating-cart-inner">
+            <div class="cart-summary-left">
+                <div class="cart-icon-wrapper">
+                    🛒
+                    <span class="cart-badge-count" id="cartBadgeCount">0</span>
+                </div>
+                <div class="cart-text-details">
+                    <span class="cart-items-text" id="cartItemsText">0 Item dipilih</span>
+                    <strong class="cart-total-price" id="cartTotalPrice">Rp0</strong>
+                </div>
+            </div>
+            <div class="cart-actions-right">
+                <button type="button" class="btn-buka-keranjang" id="btnBukaKeranjang" onclick="bukaModalKeranjang()">
+                    Lihat Pesanan
+                </button>
+                <button type="button" class="btn-checkout-direct" id="btnCheckoutDirect" onclick="lanjutKeCheckout()">
+                    Checkout →
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ==================== MODAL KUSTOMISASI MINUMAN & CEMILAN ==================== -->
+    <div class="modal-overlay hidden" id="modalKustomisasi" onclick="tutupModalJikaKlikLuar(event, 'modalKustomisasi')">
+        <div class="modal-card modal-kustomisasi-card">
+            <!-- Header Modal -->
+            <div class="modal-header">
+                <div>
+                    <span class="modal-kategori-badge" id="modalKategoriBadge">Kopi</span>
+                    <h2 class="modal-title" id="modalNamaMenu">Nama Produk</h2>
+                </div>
+                <button type="button" class="btn-modal-close" onclick="tutupModalKustomisasi()"
+                    aria-label="Tutup">✕</button>
+            </div>
+
+            <!-- Body Modal (Opsi Kustomisasi) -->
+            <div class="modal-body">
+                <!-- Preview Gambar & Info Singkat -->
+                <div class="modal-product-preview">
+                    <img id="modalGambarMenu" src="" alt="Produk" class="modal-preview-img"
+                        onerror="this.src='coffee_hero.jpg'" />
+                    <div class="modal-preview-info">
+                        <p class="modal-desc" id="modalDeskripsiMenu">Deskripsi produk kopi lezat.</p>
+                        <strong class="modal-base-price" id="modalHargaDasar">Rp25.000</strong>
+                    </div>
+                </div>
+
+                <!-- Bagian Kustomisasi Khusus Minuman (Kopi & Non-Kopi) -->
+                <div id="opsiMinumanContainer" class="opsi-minuman-section">
+                    <!-- Opsi Ukuran -->
+                    <div class="kustom-group">
+                        <label class="kustom-label">Ukuran Cup</label>
+                        <div class="option-pill-group" id="grupUkuran">
+                            <button type="button" class="pill-btn active" id="optRegular"
+                                onclick="pilihUkuran('Regular')">
+                                Regular
+                            </button>
+                            <button type="button" class="pill-btn" id="optLarge" onclick="pilihUkuran('Large')">
+                                Large (+Rp5.000)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Opsi Suhu (Dingin / Panas) -->
+                    <div class="kustom-group">
+                        <label class="kustom-label">Suhu Minuman</label>
+                        <div class="option-pill-group" id="grupSuhu">
+                            <button type="button" class="pill-btn active" id="optCold" onclick="pilihSuhu('Dingin')">
+                                🧊 Dingin (Iced)
+                            </button>
+                            <button type="button" class="pill-btn" id="optHot" onclick="pilihSuhu('Panas')">
+                                ♨️ Panas (Hot)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Opsi Sugar Level -->
+                    <div class="kustom-group">
+                        <label class="kustom-label">Tingkat Manis (Sugar Level)</label>
+                        <div class="option-pill-group" id="grupSugar">
+                            <button type="button" class="pill-btn" id="optSugar0" onclick="pilihSugar('0%')">0%</button>
+                            <button type="button" class="pill-btn" id="optSugar25"
+                                onclick="pilihSugar('25%')">25%</button>
+                            <button type="button" class="pill-btn active" id="optSugar50"
+                                onclick="pilihSugar('50%')">50%</button>
+                            <button type="button" class="pill-btn" id="optSugar100"
+                                onclick="pilihSugar('100%')">100%</button>
+                        </div>
+                    </div>
+
+                    <!-- Opsi Ice Level -->
+                    <div class="kustom-group" id="containerIceLevel">
+                        <label class="kustom-label">Tingkat Es (Ice Level)</label>
+                        <div class="option-pill-group" id="grupIce">
+                            <button type="button" class="pill-btn" id="optIceLess"
+                                onclick="pilihIce('Less')">Less</button>
+                            <button type="button" class="pill-btn active" id="optIceNormal"
+                                onclick="pilihIce('Normal')">Normal</button>
+                            <button type="button" class="pill-btn" id="optIceExtra"
+                                onclick="pilihIce('Extra')">Extra</button>
+                        </div>
+                    </div>
+
+                    <!-- Opsi Topping -->
+                    <div class="kustom-group">
+                        <label class="kustom-label">Tambahan Topping</label>
+                        <label class="checkbox-topping-label" for="checkBoba">
+                            <input type="checkbox" id="checkBoba" onchange="toggleToppingBoba()" />
+                            <span class="topping-name">Topping Boba Kenyal</span>
+                            <span class="topping-price">+Rp3.000</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Catatan Tambahan (Bisa untuk Makanan & Minuman) -->
+                <div class="kustom-group">
+                    <label class="kustom-label" for="inputCatatan">Catatan Khusus (Opsional)</label>
+                    <input type="text" id="inputCatatan" class="input-text-kustom"
+                        placeholder="Contoh: jangan terlalu manis / pisahkan sambal" maxlength="100" />
+                    <small class="form-hint">Maksimal 100 karakter</small>
+                </div>
+
+                <!-- Kontrol Jumlah (Quantity 1 - 20) -->
+                <div class="kustom-group">
+                    <label class="kustom-label">Jumlah Pesanan</label>
+                    <div class="qty-counter-wrapper">
+                        <button type="button" class="btn-qty" id="btnKurangQty" onclick="aturJumlahItem(-1)"
+                            aria-label="Kurang">−</button>
+                        <input type="number" id="inputJumlah" class="input-qty-display" value="1" min="1" max="20"
+                            readonly />
+                        <button type="button" class="btn-qty" id="btnTambahQty" onclick="aturJumlahItem(1)"
+                            aria-label="Tambah">+</button>
+                    </div>
+                    <div id="errorJumlah" class="error-message" role="alert"></div>
+                </div>
+            </div>
+
+            <!-- Footer Modal (Kalkulasi Total & Tombol Submit) -->
+            <div class="modal-footer">
+                <div class="modal-total-calc">
+                    <span class="calc-label">Subtotal</span>
+                    <strong class="calc-price" id="modalKalkulasiTotal">Rp25.000</strong>
+                </div>
+                <button type="button" class="btn-primary" id="btnMasukKeranjang" onclick="tambahkanKeKeranjang()">
+                    + Masukkan ke Keranjang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL RINGKASAN KERANJANG ==================== -->
+    <div class="modal-overlay hidden" id="modalKeranjang" onclick="tutupModalJikaKlikLuar(event, 'modalKeranjang')">
+        <div class="modal-card modal-cart-card">
+            <div class="modal-header">
+                <h2>🛒 Keranjang Pesanan Meja <span id="cartMejaHeader">--</span></h2>
+                <button type="button" class="btn-modal-close" onclick="tutupModalKeranjang()"
+                    aria-label="Tutup">✕</button>
+            </div>
+            <div class="modal-body cart-modal-body">
+                <div id="cartItemsList" class="cart-items-container">
+                    <!-- Di-render dinamis oleh js/menu.js -->
+                </div>
+            </div>
+            <div class="modal-footer cart-modal-footer">
+                <div class="cart-grand-total-row">
+                    <span>Total Pembayaran:</span>
+                    <strong id="cartGrandTotalText">Rp0</strong>
+                </div>
+                <div class="cart-footer-buttons">
+                    <button type="button" class="btn-secondary" onclick="tutupModalKeranjang()">+ Tambah Menu
+                        Lain</button>
+                    <button type="button" class="btn-primary" id="btnProsesCheckout" onclick="lanjutKeCheckout()">Lanjut
+                        ke Pembayaran →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="logo-icon">☕</span>
+                <span>Kopi Calon Sarjana</span>
+            </div>
+            <p class="footer-text">© 2026 Kopi Calon Sarjana — Prototipe Tugas Testing & Implementasi</p>
+            <p class="footer-text">Sistem Informasi • Universitas Mikroskil</p>
+        </div>
+    </footer>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script src="js/data.js"></script>
+    <script src="js/nav-guard.js"></script>
+    <script src="js/menu.js"></script>
+</body>
+
+</html>

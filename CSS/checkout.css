@@ -1,0 +1,663 @@
+/* ==========================================================================
+   checkout.css — Desain Halaman Checkout & Status Pesanan
+   Kopi Calon Sarjana
+   Menggunakan Palet & Token yang Konsisten dengan beranda.css & menu.css
+   ========================================================================== */
+
+/* -------------------- LAYOUT UTAMA -------------------- */
+@keyframes fadeInUpContainer {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.checkout-main-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2.2rem 1.25rem 5rem;
+  animation: fadeInUpContainer 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.page-header-text {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.page-header-text h1 {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  color: var(--color-primary);
+  margin-bottom: 0.4rem;
+}
+
+.page-header-text p {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+/* -------------------- KARTU UMUM (CARD CONTAINER) -------------------- */
+.checkout-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: var(--transition);
+}
+
+.checkout-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card-title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-surface-soft);
+}
+
+/* -------------------- RINGKASAN PESANAN (ORDER ITEMS) -------------------- */
+.order-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.order-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.order-item-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.order-item-left {
+  flex: 1;
+  padding-right: 1rem;
+}
+
+.order-item-name {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.2rem;
+}
+
+.order-item-meta {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.order-item-note {
+  font-size: 0.8rem;
+  color: var(--color-accent);
+  font-style: italic;
+  margin-top: 0.25rem;
+}
+
+.order-item-right {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.order-item-qty {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.order-item-price {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-top: 0.15rem;
+}
+
+/* Rincian Total */
+.order-summary-totals {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--color-surface-soft);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-text-muted);
+}
+
+.summary-row.grand-total {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.summary-row.grand-total .total-amount {
+  color: var(--color-accent);
+  font-size: 1.35rem;
+}
+
+/* -------------------- SELECTABLE PAYMENT CARDS -------------------- */
+.payment-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.payment-card-label {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1rem;
+  background: var(--color-surface-soft);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+  user-select: none;
+}
+
+.payment-card-label:hover {
+  border-color: var(--color-accent-light);
+  background: #FAF4EF;
+}
+
+.payment-card-label.selected {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+  box-shadow: 0 4px 14px rgba(200, 122, 56, 0.18);
+}
+
+.payment-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.payment-icon {
+  font-size: 1.6rem;
+}
+
+.payment-card-label input[type="radio"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.payment-card-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.25rem;
+}
+
+.payment-card-desc {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  line-height: 1.35;
+}
+
+/* -------------------- AREA UPLOAD BUKTI (KONDISIONAL) -------------------- */
+.upload-section {
+  margin-top: 1.25rem;
+  padding: 1.25rem;
+  background: #FFFBF7;
+  border: 1.5px dashed var(--color-accent-light);
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+}
+
+.upload-section.hidden {
+  display: none !important;
+}
+
+.upload-instructions {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  background: var(--color-accent-soft);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  color: var(--color-primary-light);
+}
+
+.rekening-box {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+}
+
+.rekening-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.rekening-number {
+  font-family: monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.file-input-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.file-input-custom {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+input[type="file"]#input-bukti {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--color-text-main);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--radius-sm);
+  width: 100%;
+  cursor: pointer;
+}
+
+input[type="file"]#input-bukti::-webkit-file-upload-button {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.82rem;
+  cursor: pointer;
+  margin-right: 0.75rem;
+  transition: var(--transition);
+}
+
+input[type="file"]#input-bukti::-webkit-file-upload-button:hover {
+  background: var(--color-primary-light);
+}
+
+.file-detail-info {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* Pesan Error Bukti */
+.error-message {
+  color: var(--color-error);
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-top: 0.35rem;
+  min-height: 1.2rem;
+}
+
+/* -------------------- TOMBOL BUAT PESANAN -------------------- */
+.btn-submit-order {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(56, 34, 22, 0.25);
+  transition: var(--transition);
+}
+
+.btn-submit-order:hover {
+  background: var(--color-primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(56, 34, 22, 0.32);
+}
+
+.btn-submit-order:active {
+  transform: translateY(0);
+}
+
+/* -------------------- HALAMAN STATUS PESANAN -------------------- */
+.status-badge-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.status-badge-menunggu {
+  background: #FFF7ED;
+  color: #C2410C;
+  border: 1px solid #FFEDD5;
+}
+
+.status-badge-diproses {
+  background: #EFF6FF;
+  color: #1D4ED8;
+  border: 1px solid #DBEAFE;
+}
+
+.status-badge-siap {
+  background: #FDF2F8;
+  color: #BE185D;
+  border: 1px solid #FCE7F3;
+}
+
+.status-badge-selesai {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border: 1px solid #BBF7D0;
+}
+
+.order-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.order-info-item {
+  background: var(--color-surface-soft);
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+}
+
+.order-info-label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.2rem;
+}
+
+.order-info-val {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* -------------------- VISUAL STATUS TIMELINE -------------------- */
+.timeline-card {
+  padding: 2rem 1.5rem;
+}
+
+.timeline-container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin: 1.5rem 0 2rem;
+}
+
+/* Garis penghubung horizontal */
+.timeline-container::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: 30px;
+  right: 30px;
+  height: 4px;
+  background: var(--color-border);
+  z-index: 1;
+}
+
+.timeline-progress-line {
+  position: absolute;
+  top: 24px;
+  left: 30px;
+  height: 4px;
+  background: var(--color-accent);
+  z-index: 2;
+  transition: width 0.5s ease;
+}
+
+.timeline-step {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 90px;
+}
+
+.step-node {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 3px solid var(--color-border);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.65rem;
+  transition: var(--transition);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.step-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  line-height: 1.25;
+}
+
+/* State Step */
+.timeline-step.completed .step-node {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #FFFFFF;
+}
+
+.timeline-step.completed .step-label {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.timeline-step.active .step-node {
+  background: var(--color-primary);
+  border-color: var(--color-accent);
+  color: #FFFFFF;
+  transform: scale(1.15);
+  box-shadow: 0 0 0 6px var(--color-accent-soft);
+  animation: pulseNode 2s infinite;
+}
+
+.timeline-step.active .step-label {
+  color: var(--color-primary);
+  font-weight: 800;
+}
+
+@keyframes pulseNode {
+  0% { box-shadow: 0 0 0 0 rgba(200, 122, 56, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(200, 122, 56, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(200, 122, 56, 0); }
+}
+
+/* Action Refresh & Nav */
+.status-actions-bar {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.btn-refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-accent);
+  color: var(--color-accent);
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-refresh:hover {
+  background: var(--color-accent);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.btn-kembali-menu {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-surface-soft);
+  border: 1.5px solid var(--color-border);
+  color: var(--color-primary);
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.btn-kembali-menu:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-text-muted);
+}
+
+/* -------------------- EMPTY STATE (BELUM ADA PESANAN) -------------------- */
+.empty-order-card {
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  margin-top: 1rem;
+}
+
+.empty-order-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.empty-order-card h2 {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.empty-order-card p {
+  color: var(--color-text-muted);
+  max-width: 480px;
+  margin: 0 auto 1.8rem;
+  font-size: 0.95rem;
+}
+
+/* -------------------- RESPONSIVE DESIGN (360px - 768px) -------------------- */
+@media (max-width: 600px) {
+  .checkout-main-container {
+    padding: 1.5rem 1rem 4rem;
+  }
+
+  .payment-options-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .order-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-container {
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: flex-start;
+    padding-left: 1.5rem;
+  }
+
+  .timeline-container::before {
+    top: 15px;
+    bottom: 15px;
+    left: 44px;
+    right: auto;
+    width: 4px;
+    height: auto;
+  }
+
+  .timeline-progress-line {
+    top: 15px;
+    left: 44px;
+    width: 4px;
+    height: 0;
+    transition: height 0.5s ease;
+  }
+
+  .timeline-step {
+    flex-direction: row;
+    width: 100%;
+    text-align: left;
+    gap: 1rem;
+  }
+
+  .step-node {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .status-actions-bar {
+    flex-direction: column;
+  }
+
+  .btn-refresh, .btn-kembali-menu {
+    width: 100%;
+    justify-content: center;
+  }
+}

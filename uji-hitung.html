@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uji Fungsi Hitung — Kopi Calon Sarjana</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FBF8F5;
+            --surface-color: #FFFFFF;
+            --border-color: #E6DCD2;
+            --text-color: #2D1A10;
+            --text-muted: #7A665A;
+            --success-color: #10B981;
+            --success-bg: #ECFDF5;
+            --danger-color: #EF4444;
+            --danger-bg: #FEF2F2;
+            --primary-color: #382216;
+            --accent-color: #C07A4A;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 2rem 1rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .summary-card {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .summary-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .summary-badge {
+            font-weight: 700;
+            padding: 0.4rem 1rem;
+            border-radius: 999px;
+            font-size: 0.95rem;
+        }
+
+        .badge-lulus {
+            background: var(--success-bg);
+            color: var(--success-color);
+            border: 1px solid #A7F3D0;
+        }
+
+        .badge-gagal {
+            background: var(--danger-bg);
+            color: var(--danger-color);
+            border: 1px solid #FECACA;
+        }
+
+        .table-card {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background-color: #F5EFEB;
+            color: var(--primary-color);
+            padding: 0.85rem 1rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #F4EBE3;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: #5A351D;
+        }
+
+        .status-badge {
+            display: inline-block;
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .status-lulus {
+            background: var(--success-bg);
+            color: var(--success-color);
+            border: 1px solid #A7F3D0;
+        }
+
+        .status-gagal {
+            background: var(--danger-bg);
+            color: var(--danger-color);
+            border: 1px solid #FECACA;
+        }
+
+        .footer-action {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .btn-kembali {
+            display: inline-block;
+            background: var(--primary-color);
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn-kembali:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧪 Hasil Pengujian Unit — js/hitung.js</h1>
+            <p class="subtitle">Pengujian Black Box & Boundary Value Analysis (BVA) untuk Kopi Calon Sarjana</p>
+        </header>
+
+        <section class="summary-card" id="summaryCard">
+            <div>
+                <span class="summary-title" id="summaryText">Menjalankan pengujian...</span>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;" id="summaryDetail"></p>
+            </div>
+            <div id="summaryBadge" class="summary-badge badge-lulus">...</div>
+        </section>
+
+        <section class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">No</th>
+                        <th>Deskripsi Kasus Uji</th>
+                        <th>Eksekusi Kode</th>
+                        <th>Ekspektasi</th>
+                        <th>Hasil Aktual</th>
+                        <th style="width: 100px; text-align: center;">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="testResultsBody">
+                    <!-- Diisi otomatis oleh JavaScript -->
+                </tbody>
+            </table>
+        </section>
+
+        <div class="footer-action">
+            <a href="menu.html" class="btn-kembali">← Kembali ke Katalog Menu</a>
+        </div>
+    </div>
+
+    <!-- Script hitung.js yang diuji -->
+    <script src="js/hitung.js"></script>
+
+    <!-- Script Runner Pengujian -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const kasusUji = [
+                {
+                    no: 1,
+                    deskripsi: "hargaSatuan(25000, Regular, boba) = 28000",
+                    kode: 'hargaSatuan(25000, "Regular", true)',
+                    eksekusi: () => hargaSatuan(25000, "Regular", true),
+                    ekspektasi: 28000,
+                    cek: (hasil) => hasil === 28000
+                },
+                {
+                    no: 2,
+                    deskripsi: "hargaSatuan(25000, Large, boba) = 33000",
+                    kode: 'hargaSatuan(25000, "Large", true)',
+                    eksekusi: () => hargaSatuan(25000, "Large", true),
+                    ekspektasi: 33000,
+                    cek: (hasil) => hasil === 33000
+                },
+                {
+                    no: 3,
+                    deskripsi: "Subtotal: 2 x 28000 = 56000",
+                    kode: "subtotal(28000, 2)",
+                    eksekusi: () => subtotal(28000, 2),
+                    ekspektasi: 56000,
+                    cek: (hasil) => hasil === 56000
+                },
+                {
+                    no: 4,
+                    deskripsi: "validasiJumlah(0) tidak valid",
+                    kode: "validasiJumlah(0)",
+                    eksekusi: () => validasiJumlah(0),
+                    ekspektasi: "tidak valid (false)",
+                    cek: (hasil) => hasil === false
+                },
+                {
+                    no: 5,
+                    deskripsi: "validasiJumlah(1) valid (batas bawah BVA)",
+                    kode: "validasiJumlah(1)",
+                    eksekusi: () => validasiJumlah(1),
+                    ekspektasi: "valid (true)",
+                    cek: (hasil) => hasil === true
+                },
+                {
+                    no: 6,
+                    deskripsi: "validasiJumlah(20) valid (batas atas BVA)",
+                    kode: "validasiJumlah(20)",
+                    eksekusi: () => validasiJumlah(20),
+                    ekspektasi: "valid (true)",
+                    cek: (hasil) => hasil === true
+                },
+                {
+                    no: 7,
+                    deskripsi: "validasiJumlah(21) tidak valid",
+                    kode: "validasiJumlah(21)",
+                    eksekusi: () => validasiJumlah(21),
+                    ekspektasi: "tidak valid (false)",
+                    cek: (hasil) => hasil === false
+                },
+                {
+                    no: 8,
+                    deskripsi: 'formatRupiah(56000) = "Rp56.000"',
+                    kode: "formatRupiah(56000)",
+                    eksekusi: () => formatRupiah(56000),
+                    ekspektasi: "Rp56.000",
+                    cek: (hasil) => hasil === "Rp56.000"
+                }
+            ];
+
+            const tbody = document.getElementById("testResultsBody");
+            let jumlahLulus = 0;
+
+            kasusUji.forEach(tc => {
+                let aktual;
+                let statusLulus = false;
+                try {
+                    aktual = tc.eksekusi();
+                    statusLulus = tc.cek(aktual);
+                } catch (e) {
+                    aktual = "ERROR: " + e.message;
+                    statusLulus = false;
+                }
+
+                if (statusLulus) jumlahLulus++;
+
+                const formatAktual = typeof aktual === "boolean" 
+                    ? (aktual ? "valid (true)" : "tidak valid (false)") 
+                    : String(aktual);
+
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${tc.no}</td>
+                    <td><strong>${tc.deskripsi}</strong></td>
+                    <td><code>${tc.kode}</code></td>
+                    <td><code>${tc.ekspektasi}</code></td>
+                    <td><code>${formatAktual}</code></td>
+                    <td style="text-align: center;">
+                        <span class="status-badge ${statusLulus ? 'status-lulus' : 'status-gagal'}">
+                            ${statusLulus ? 'LULUS' : 'GAGAL'}
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Summary
+            const summaryText = document.getElementById("summaryText");
+            const summaryDetail = document.getElementById("summaryDetail");
+            const summaryBadge = document.getElementById("summaryBadge");
+
+            const total = kasusUji.length;
+            if (jumlahLulus === total) {
+                summaryText.textContent = "Semua Kasus Uji LULUS";
+                summaryDetail.textContent = `${jumlahLulus} dari ${total} pengujian berhasil dengan hasil yang sesuai ekspektasi.`;
+                summaryBadge.textContent = "100% LULUS";
+                summaryBadge.className = "summary-badge badge-lulus";
+            } else {
+                summaryText.textContent = "Ada Kasus Uji GAGAL";
+                summaryDetail.textContent = `${total - jumlahLulus} dari ${total} pengujian gagal. Periksa logika kode.`;
+                summaryBadge.textContent = `${jumlahLulus}/${total} LULUS`;
+                summaryBadge.className = "summary-badge badge-gagal";
+            }
+        });
+    </script>
+</body>
+</html>

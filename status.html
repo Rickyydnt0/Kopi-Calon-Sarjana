@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Pesanan — Kopi Calon Sarjana</title>
+    <meta name="description" content="Pantau status pengerjaan pesanan kopi dan camilan Anda secara real-time langsung dari meja.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="CSS/beranda.css">
+    <link rel="stylesheet" href="CSS/menu.css">
+    <link rel="stylesheet" href="CSS/checkout.css">
+</head>
+<body>
+
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="beranda.html" class="nav-logo" id="navLogo">
+                <span class="logo-icon">☕</span>
+                <span class="logo-text">Kopi<strong>Calon Sarjana</strong></span>
+            </a>
+
+            <!-- Hamburger menu untuk mobile -->
+            <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Link navigasi pelanggan -->
+            <ul class="nav-links" id="navLinks">
+                <li><a href="beranda.html" id="linkBeranda">Beranda</a></li>
+                <li><a href="menu.html" id="linkMenu">Menu</a></li>
+                <li><a href="checkout.html" id="linkKeranjang">Keranjang</a></li>
+                <li><a href="status.html" class="active" id="linkStatus">Status Pesanan</a></li>
+                <li><a href="login.html" class="nav-staff-link" id="linkLoginStaff" title="Area Admin & Kasir">🔐 Login Staf</a></li>
+            </ul>
+
+            <!-- Area Status Login Pelanggan & Reset -->
+            <div class="nav-actions">
+                <div id="navUserInfo" class="nav-user-info">
+                    <span id="navUserBadge" class="nav-user-badge">Meja --</span>
+                </div>
+
+                <!-- Tombol Reset Data Uji -->
+                <button class="btn-reset-data" id="btnResetData" onclick="konfirmasiReset()" title="Reset Data Uji">
+                    🔄 Reset
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== BANNER STATUS MEJA DINE-IN ==================== -->
+    <section class="dine-in-bar" id="dineInBar">
+        <div class="dine-in-container">
+            <div class="dine-in-info">
+                <span class="dine-in-icon">📍</span>
+                <div>
+                    <strong>Dine-in di Meja: <span id="displayNomorMeja" class="badge-meja-highlight">--</span></strong>
+                    <span class="dine-in-nama" id="displayNamaPelanggan">Pelanggan: ...</span>
+                </div>
+            </div>
+            <div class="dine-in-action">
+                <button type="button" class="btn-outline-sm" id="btnUbahMeja" onclick="bukaGantiMeja()">Ubah Meja</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== KONTEN UTAMA STATUS PESANAN ==================== -->
+    <main class="checkout-main-container">
+        <header class="page-header-text">
+            <span class="section-badge">Pelacakan Pesanan Real-Time</span>
+            <h1>Status Pesanan Anda</h1>
+            <p>Pantau alur persiapan kopi dan camilan Anda dari barista hingga siap disajikan.</p>
+        </header>
+
+        <!-- STATE 1: JIKA BELUM ADA PESANAN AKTIF -->
+        <section class="empty-order-card hidden" id="emptyOrderState">
+            <div class="empty-order-icon">📋</div>
+            <h2>Belum ada pesanan aktif</h2>
+            <p>Anda belum memiliki pesanan yang sedang diproses di meja ini. Silakan pilih menu kopi atau camilan favorit Anda terlebih dahulu.</p>
+            <a href="menu.html" class="btn-submit-order" id="btnMulaiPesan" style="text-decoration: none; display: inline-flex; width: auto;">
+                Mulai Memesan →
+            </a>
+        </section>
+
+        <!-- STATE 2: DETAIL PESANAN AKTIF & TIMELINE -->
+        <div id="activeOrderContent">
+            <!-- KARTU 1: STATUS TERKINI & TIMELINE VISUAL -->
+            <section class="checkout-card timeline-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+                    <div>
+                        <span style="font-size: 0.82rem; color: var(--color-text-muted);">Status Pengerjaan:</span>
+                        <h2 style="font-size: 1.35rem; color: var(--color-primary); margin-top: 0.15rem;">
+                            <span id="teks-status-terbaru">Memuat...</span>
+                        </h2>
+                    </div>
+                    <span id="badgeStatusTerkini" class="status-badge-header status-badge-menunggu">
+                        Menunggu Konfirmasi
+                    </span>
+                </div>
+
+                <p id="keteranganStatusDetail" style="font-size: 0.88rem; color: var(--color-text-muted); margin-bottom: 1.5rem;">
+                    Pesanan Anda sedang dalam antrean konfirmasi kasir.
+                </p>
+
+                <!-- TIMELINE STATUS (ID: timeline-status) -->
+                <div class="timeline-container" id="timeline-status">
+                    <!-- Progress bar line diisi dinamis oleh status.js -->
+                    <div class="timeline-progress-line" id="timelineProgressLine"></div>
+
+                    <!-- Step 1: Menunggu Konfirmasi -->
+                    <div class="timeline-step" id="step-menunggu">
+                        <div class="step-node">1</div>
+                        <span class="step-label">Menunggu Konfirmasi</span>
+                    </div>
+
+                    <!-- Step 2: Diproses -->
+                    <div class="timeline-step" id="step-diproses">
+                        <div class="step-node">2</div>
+                        <span class="step-label">Diproses Barista</span>
+                    </div>
+
+                    <!-- Step 3: Siap Diambil -->
+                    <div class="timeline-step" id="step-siap">
+                        <div class="step-node">3</div>
+                        <span class="step-label">Siap Diambil</span>
+                    </div>
+
+                    <!-- Step 4: Selesai -->
+                    <div class="timeline-step" id="step-selesai">
+                        <div class="step-node">4</div>
+                        <span class="step-label">Selesai</span>
+                    </div>
+                </div>
+
+                <!-- Tombol Segarkan (Refresh Data dari LocalStorage) -->
+                <div class="status-actions-bar">
+                    <button type="button" class="btn-refresh" id="btnRefreshStatus" onclick="muatStatusPesanan(true)">
+                        🔄 Segarkan Status
+                    </button>
+                    <a href="menu.html" class="btn-kembali-menu" id="btnPesanLagi">
+                        + Pesan Menu Lain
+                    </a>
+                </div>
+            </section>
+
+            <!-- KARTU 2: DETAIL RINCIAN PESANAN -->
+            <section class="checkout-card">
+                <h2 class="card-title">
+                    <span>🧾</span>
+                    <span>Rincian Informasi Pesanan</span>
+                </h2>
+
+                <div class="order-info-grid">
+                    <div class="order-info-item">
+                        <span class="order-info-label">Nomor Pesanan</span>
+                        <strong class="order-info-val" id="teks-id-pesanan">KCS-000</strong>
+                    </div>
+                    <div class="order-info-item">
+                        <span class="order-info-label">Meja & Pemesan</span>
+                        <strong class="order-info-val" id="detailMejaNamaText">Meja -- • ...</strong>
+                    </div>
+                    <div class="order-info-item">
+                        <span class="order-info-label">Metode Pembayaran</span>
+                        <strong class="order-info-val" id="detailMetodeBayarText">Tunai</strong>
+                    </div>
+                    <div class="order-info-item">
+                        <span class="order-info-label">Total Pembayaran</span>
+                        <strong class="order-info-val" style="color: var(--color-accent);" id="detailTotalBayarText">Rp0</strong>
+                    </div>
+                </div>
+
+                <!-- Daftar Item yang Dipesan -->
+                <div style="margin-top: 1rem;">
+                    <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.75rem;">
+                        Menu yang Sedang Dibuat:
+                    </h3>
+                    <div class="order-items-list" id="statusItemsList">
+                        <!-- Di-render dinamis oleh status.js -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="logo-icon">☕</span>
+                <span>Kopi Calon Sarjana</span>
+            </div>
+            <p class="footer-text">© 2026 Kopi Calon Sarjana — Prototipe Tugas Testing & Implementasi</p>
+            <p class="footer-text">Sistem Informasi • Universitas Mikroskil</p>
+        </div>
+    </footer>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script src="js/hitung.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/nav-guard.js"></script>
+    <script src="js/status.js"></script>
+</body>
+</html>
