@@ -3,7 +3,7 @@
  * Kopi Calon Sarjana
  * 
  * Aturan Akses:
- * 1. Pelanggan Belum Registrasi (belum input nama / nomor meja di beranda.html):
+ * 1. Pelanggan Belum Registrasi (belum input nama / nomor meja di index.html):
  *    - Klik Menu / Keranjang / Status Pesanan dicegah dan menampilkan pop-up modal ramah:
  *      "Mohon masukkan nama dan nomor meja terlebih dahulu di Beranda!"
  * 2. Pelanggan Sudah Masuk, Tapi Keranjang Kosong:
@@ -306,7 +306,7 @@
         }
 
         // 4. Tombol Hero CTA di Beranda
-        if (btnMulaiPesan && (window.location.pathname.includes("beranda.html") || window.location.pathname.endsWith("/"))) {
+        if (btnMulaiPesan && (window.location.pathname.includes("index.html") || window.location.pathname.endsWith("/"))) {
             const pelanggan = ambilDataPelanggan();
             if (pelangganValid(pelanggan)) {
                 e.preventDefault();
@@ -321,7 +321,7 @@
      * Tampilkan peringatan jika pelanggan belum memasukkan nama & meja
      */
     function tampilkanPeringatanBelumRegistrasi(tujuan) {
-        const isDiBeranda = window.location.pathname.includes("beranda.html") || window.location.pathname.endsWith("/");
+        const isDiBeranda = window.location.pathname.includes("index.html") || window.location.pathname.endsWith("/");
 
         window.tampilkanModalPeringatan({
             icon: "☕",
@@ -341,7 +341,7 @@
                         else if (inputNama) inputNama.focus();
                     }, 400);
                 } else {
-                    window.location.href = "beranda.html#registrasi";
+                    window.location.href = "index.html#registrasi";
                 }
             },
             tombolTutupText: "Nanti Saja"

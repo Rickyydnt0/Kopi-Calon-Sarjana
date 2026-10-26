@@ -564,7 +564,7 @@ function lanjutKeCheckout() {
  */
 function bukaGantiMeja() {
     if (confirm("Ingin berpindah meja atau mengganti nama pemesan?")) {
-        window.location.href = `beranda.html?meja=${mejaAktif}`;
+        window.location.href = `index.html?meja=${mejaAktif}`;
     }
 }
 
@@ -577,7 +577,7 @@ function perbaruiTautanNavbar(meja) {
     const linkKeranjang = document.getElementById("linkKeranjang");
     const linkStatus = document.getElementById("linkStatus");
 
-    if (linkBeranda) linkBeranda.href = `beranda.html?meja=${meja}`;
+    if (linkBeranda) linkBeranda.href = `index.html?meja=${meja}`;
     if (linkMenu) linkMenu.href = `menu.html?meja=${meja}`;
     if (linkKeranjang) linkKeranjang.href = `checkout.html?meja=${meja}`;
     if (linkStatus) linkStatus.href = `status.html?meja=${meja}`;

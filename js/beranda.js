@@ -252,7 +252,7 @@ function perbaruiTautanNavbar(meja) {
     const linkKeranjang = document.getElementById("linkKeranjang");
     const linkStatus = document.getElementById("linkStatus");
 
-    if (linkBeranda) linkBeranda.href = `beranda.html?meja=${meja}`;
+    if (linkBeranda) linkBeranda.href = `index.html?meja=${meja}`;
     if (linkMenu) linkMenu.href = `menu.html?meja=${meja}`;
     if (linkKeranjang) linkKeranjang.href = `checkout.html?meja=${meja}`;
     if (linkStatus) linkStatus.href = `status.html?meja=${meja}`;
@@ -299,7 +299,7 @@ function konfirmasiReset() {
     if (yakin && typeof resetData === "function") {
         resetData().then(() => {
             alert("Data uji berhasil direset ke kondisi awal.");
-            window.location.href = "beranda.html";
+            window.location.href = "index.html";
         });
     }
 }

@@ -1,35 +1,191 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kopi Calon Sarjana — Pesan Online</title>
-  <meta name="description" content="Pesan kopi dan makanan dari meja Anda di Kopi Calon Sarjana" />
-  <link rel="stylesheet" href="css/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kopi Calon Sarjana — Temani Perjuanganmu</title>
+    <meta name="description" content="Kopi Calon Sarjana — nikmati kopi dan camilan dari meja Anda. Pesan, duduk, nikmati.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="CSS/beranda.css">
 </head>
-
 <body>
-  <!--
-    Halaman utama pelanggan — Kopi Calon Sarjana
-    Cara akses: index.html?meja=05  (kode meja 01-20)
-    Konten dirender oleh JavaScript secara dinamis.
-  -->
-  <div id="app">
-    <!-- Konten dimuat oleh js/app.js -->
-    <div class="page-container center-content">
-      <p>Memuat...</p>
-    </div>
-  </div>
 
-  <!-- Script: data seed harus dimuat sebelum app -->
-  <script>
-    // Arahkan otomatis ke beranda.html utama dengan meneruskan parameter meja jika ada
-    const params = window.location.search;
-    window.location.replace("beranda.html" + params);
-  </script>
-  <script src="js/data.js"></script>
-  <script src="js/app.js"></script>
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" id="navLogo">
+                <span class="logo-icon">☕</span>
+                <span class="logo-text">Kopi<strong>Calon Sarjana</strong></span>
+            </a>
+
+            <!-- Hamburger menu untuk mobile -->
+            <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Link navigasi pelanggan -->
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="active" id="linkBeranda">Beranda</a></li>
+                <li><a href="menu.html" id="linkMenu">Menu</a></li>
+                <li><a href="checkout.html" id="linkKeranjang">Keranjang</a></li>
+                <li><a href="status.html" id="linkStatus">Status Pesanan</a></li>
+                <li><a href="login.html" class="nav-staff-link" id="linkLoginStaff" title="Area Admin & Kasir">🔐 Login Staf</a></li>
+            </ul>
+
+            <!-- Area Status Login Pelanggan & Reset -->
+            <div class="nav-actions">
+                <!-- Info sesi pelanggan aktif jika sudah login meja -->
+                <div id="navUserInfo" class="nav-user-info hidden">
+                    <span id="navUserBadge" class="nav-user-badge">Meja 05 • Budi</span>
+                    <button type="button" class="btn-ganti-meja" onclick="keluarSesiPelanggan()" title="Ganti Meja / Nama">Ganti</button>
+                </div>
+
+                <!-- Tombol CTA Masuk Meja jika belum login -->
+                <a href="#registrasi" class="btn-nav-login" id="navBtnLogin">🔑 Masuk Meja</a>
+
+                <!-- Tombol Reset Data Uji -->
+                <button class="btn-reset-data" id="btnResetData" onclick="konfirmasiReset()" title="Reset Data Uji">
+                    🔄 Reset
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO SECTION DENGAN SLIDESHOW 4 GAMBAR ==================== -->
+    <header class="hero" id="heroSection">
+        <!-- Slideshow 4 Gambar Background Hero -->
+        <div class="hero-slideshow" aria-hidden="true">
+            <div class="hero-slide active" style="background-image: url('coffee_hero.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1400&auto=format&fit=crop&q=80');"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1400&auto=format&fit=crop&q=80');"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=1400&auto=format&fit=crop&q=80');"></div>
+        </div>
+
+        <!-- Lapisan Overlay untuk Keterbacaan Teks Maksimal -->
+        <div class="hero-overlay"></div>
+
+        <div class="hero-container">
+            <div class="hero-content fade-in-up">
+                <span class="hero-badge">☕ Kedai Kopi & Camilan Mahasiswa</span>
+                <h1>Temani <span class="hero-highlight">Perjuanganmu</span><br>
+                    <span class="hero-sub">Satu Tegukan dalam Satu Waktu.</span>
+                </h1>
+                <p class="hero-desc">
+                    Nikmati racikan kopi pilihan dan camilan favorit langsung dari tempat duduk Anda. 
+                    Masukkan nomor meja & nama, pilih menu favorit, pesanan langsung diantar ke meja Anda.
+                </p>
+                <div class="hero-cta">
+                    <a href="#registrasi" class="btn-primary" id="btnMulaiPesan">🔑 Masuk & Pesan dari Meja</a>
+                    <a href="#tentang" class="btn-ghost">Tentang Kami</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== SECTION REGISTRASI / LOGIN MEJA ==================== -->
+    <section class="section-registrasi" id="registrasi">
+        <div class="section-container scroll-reveal">
+            <div class="reg-header">
+                <span class="section-badge">🔑 Akses Pelanggan</span>
+                <h2>Masuk & Pesan dari Meja</h2>
+                <p>Silakan masukkan nomor meja tempat Anda duduk dan nama Anda untuk mulai memesan menu.</p>
+            </div>
+
+            <!-- Pesan error jika URL parameter meja tidak valid (contoh: ?meja=99) -->
+            <div id="mejaErrorContainer" class="meja-error-card hidden">
+                <div class="error-icon-large">⚠️</div>
+                <h3>Meja tidak ditemukan</h3>
+                <p id="mejaErrorDetail">Kode meja tidak valid. Silakan periksa kembali nomor meja Anda (01 sampai 20) atau hubungi kasir.</p>
+                <p class="hint-text">Format meja yang valid: 01 - 20</p>
+                <button type="button" class="btn-secondary" style="margin-top: 1rem;" onclick="tampilkanFormManual()">Ketik Nomor Meja Manual</button>
+            </div>
+
+            <!-- Form Registrasi / Login Meja -->
+            <form id="formRegistrasi" class="reg-form" onsubmit="prosesRegistrasi(event)">
+                <!-- Input Nomor Meja -->
+                <div class="form-group">
+                    <label for="inputMeja">Nomor Meja</label>
+                    <input type="text" id="inputMeja" placeholder="Contoh: 05" maxlength="2" autocomplete="off" />
+                    <div id="errorMeja" class="error-message" role="alert"></div>
+                    <small class="form-hint" id="hintMeja">Rentang meja yang tersedia: <strong>01 sampai 20</strong> (terisi otomatis bila scan barcode)</small>
+                </div>
+
+                <!-- Input Nama Pelanggan -->
+                <div class="form-group">
+                    <label for="inputNama">Nama Pelanggan</label>
+                    <input type="text" id="inputNama" placeholder="Contoh: Budi Santoso" maxlength="30" autocomplete="off" />
+                    <div id="errorNama" class="error-message" role="alert"></div>
+                    <small class="form-hint">Minimal 3 karakter, maksimal 30 karakter</small>
+                </div>
+
+                <button type="submit" class="btn-primary btn-full" id="btnRegistrasi">
+                    Mulai Memesan →
+                </button>
+            </form>
+
+            <!-- Tampilan Jika Sudah Berhasil Masuk / Terdaftar -->
+            <div id="regSukses" class="reg-sukses hidden">
+                <div class="sukses-icon">✅</div>
+                <h3>Selamat datang, <span id="namaDisplay"></span>!</h3>
+                <p>Anda terdaftar di <strong>Meja <span id="mejaDisplay"></span></strong>. Silakan lanjut memilih menu favorit Anda.</p>
+                <div class="reg-sukses-actions">
+                    <a href="menu.html" class="btn-primary" id="btnKeMenu">
+                        Lihat Katalog Menu →
+                    </a>
+                    <button type="button" class="btn-secondary" id="btnGantiSesi" onclick="keluarSesiPelanggan()">
+                        Ganti Meja / Nama
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION TENTANG ==================== -->
+    <section class="section-tentang" id="tentang">
+        <div class="section-container scroll-reveal">
+            <span class="section-badge">Tentang Kami</span>
+            <h2>Kenapa <span class="text-accent">Kopi Calon Sarjana</span>?</h2>
+            <div class="tentang-grid">
+                <div class="tentang-card">
+                    <div class="tentang-icon">☕</div>
+                    <h3>Kopi Pilihan</h3>
+                    <p>Biji kopi 100% Arabika lokal, disangrai medium untuk cita rasa seimbang yang cocok menemani belajar.</p>
+                </div>
+                <div class="tentang-card">
+                    <div class="tentang-icon">📱</div>
+                    <h3>Pesan dari Meja</h3>
+                    <p>Scan barcode atau masukkan nomor meja Anda di web, pesan lewat ponsel, tanpa antre. Kami yang antar.</p>
+                </div>
+                <div class="tentang-card">
+                    <div class="tentang-icon">💰</div>
+                    <h3>Harga Mahasiswa</h3>
+                    <p>Menu mulai dari Rp15.000. Pas di kantong, tetap premium di rasa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="logo-icon">☕</span>
+                <span>Kopi Calon Sarjana</span>
+            </div>
+            <p class="footer-text">© 2026 Kopi Calon Sarjana — Prototipe Tugas Testing & Implementasi</p>
+            <p class="footer-text">Sistem Informasi • Universitas Mikroskil</p>
+        </div>
+    </footer>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script src="js/data.js"></script>
+    <script src="js/nav-guard.js"></script>
+    <script src="js/beranda.js"></script>
 </body>
-
 </html>
